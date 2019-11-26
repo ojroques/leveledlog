@@ -75,11 +75,9 @@ func (llogger *LeveledLog) printf(entrylevel uint32, msg string, v ...interface{
 		return
 	}
 
-	_, file, line, ok := runtime.Caller(2)
-	if ok {
-		file = llogger.formatFile(file, uint64(line))
-	} else {
-		file = ""
+	file := ""
+	if _, f, l, ok := runtime.Caller(2); ok {
+		file = llogger.formatFile(f, uint64(l))
 	}
 	fmsg := fmt.Sprintf(msg, v...)
 	llogger.logger.Printf("%s%s%s\n", file, llogger.prefixes[entrylevel-1], fmsg)
