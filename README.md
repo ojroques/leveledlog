@@ -49,14 +49,14 @@ func main() {
 Output:
 
 ```sh
-2019/11/26 16:15:48.437194 leveledlog.go:55: [DEBUG] debug message 1
-2019/11/26 16:15:48.437281 leveledlog.go:55: [INFO] info message
-2019/11/26 16:15:48.437286 leveledlog.go:55: [WARNING] warning message
-2019/11/26 16:15:48.437289 leveledlog.go:55: [ERROR] error message
-2019/11/26 16:15:48.437292 leveledlog.go:55: D debug message 2 with a different level prefix
-2019/11/26 16:15:48.437294 leveledlog.go:55: [WARNING] this will be printed
-2019/11/26 16:15:48.437297 leveledlog.go:55: [ERROR] this too
-2019/11/26 16:15:48 [INFO] a different log entry prefix
+2019/11/26 18:34:44.180749 main.go:11 [DEBUG] debug message 1
+2019/11/26 18:34:44.180854 main.go:12 [INFO] info message
+2019/11/26 18:34:44.180858 main.go:13 [WARNING] warning message
+2019/11/26 18:34:44.180861 main.go:14 [ERROR] error message
+2019/11/26 18:34:44.180864 main.go:17 D debug message 2 with a different level prefix
+2019/11/26 18:34:44.180867 main.go:21 [WARNING] this will be printed
+2019/11/26 18:34:44.180870 main.go:22 [ERROR] this too
+2019/11/26 18:34:44 [INFO] a different log entry prefix
 ```
 
 

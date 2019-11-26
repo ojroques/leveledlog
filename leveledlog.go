@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"runtime"
+	"strconv"
 )
 
 const (
@@ -28,18 +30,40 @@ type LeveledLog struct {
 	logger   *log.Logger
 	loglevel uint32
 	prefixes [4]string
+	flags    int
 }
 
 func New(out io.Writer, loglevel uint32, flag int) *LeveledLog {
 	var llogger LeveledLog
-	llogger.logger = log.New(out, "", flag)
+	llogger.logger = log.New(out, "", flag&^Lshortfile&^Llongfile)
 	llogger.loglevel = loglevel
 	llogger.prefixes = [4]string{"[ERROR] ", "[WARNING] ", "[INFO] ", "[DEBUG] "}
+	llogger.flags = flag
 	return &llogger
 }
 
 func DefaultNew(out io.Writer, loglevel uint32) *LeveledLog {
 	return New(out, loglevel, Ldate|Ltime|Lmicroseconds|Lshortfile)
+}
+
+func (llogger *LeveledLog) formatFile(file string, line uint64) string {
+	if llogger.flags&(Lshortfile|Llongfile) == 0 {
+		return ""
+	}
+
+	if llogger.flags&Lshortfile != 0 {
+		short := file
+		for i := len(file) - 1; i > 0; i-- {
+			if file[i] == '/' {
+				short = file[i+1:]
+				break
+			}
+		}
+		file = short
+	}
+
+	file = file + ":" + strconv.FormatUint(line, 10) + " "
+	return file
 }
 
 func (llogger *LeveledLog) printf(entrylevel uint32, msg string, v ...interface{}) {
@@ -51,8 +75,14 @@ func (llogger *LeveledLog) printf(entrylevel uint32, msg string, v ...interface{
 		return
 	}
 
+	_, file, line, ok := runtime.Caller(2)
+	if ok {
+		file = llogger.formatFile(file, uint64(line))
+	} else {
+		file = ""
+	}
 	fmsg := fmt.Sprintf(msg, v...)
-	llogger.logger.Printf("%s%s\n", llogger.prefixes[entrylevel-1], fmsg)
+	llogger.logger.Printf("%s%s%s\n", file, llogger.prefixes[entrylevel-1], fmsg)
 }
 
 func (llogger *LeveledLog) Debug(msg string, v ...interface{}) {
