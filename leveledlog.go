@@ -61,8 +61,7 @@ func (llogger *LeveledLog) formatFile(file string, line int) string {
 		file = short
 	}
 
-	file = fmt.Sprintf("%s:%d ", file, line)
-	return file
+	return fmt.Sprintf("%s:%d ", file, line)
 }
 
 func (llogger *LeveledLog) printf(entrylevel uint32, msg string, v ...interface{}) {
@@ -74,11 +73,12 @@ func (llogger *LeveledLog) printf(entrylevel uint32, msg string, v ...interface{
 		return
 	}
 
+	fmsg := fmt.Sprintf(msg, v...)
 	file := ""
 	if _, f, l, ok := runtime.Caller(2); ok {
 		file = llogger.formatFile(f, l)
 	}
-	fmsg := fmt.Sprintf(msg, v...)
+
 	llogger.logger.Printf("%s%s%s\n", file, llogger.prefixes[entrylevel-1], fmsg)
 }
 
