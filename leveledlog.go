@@ -42,7 +42,7 @@ func New(out io.Writer, loglevel uint32, flag int) *LeveledLog {
 }
 
 func DefaultNew(out io.Writer, loglevel uint32) *LeveledLog {
-	return New(out, loglevel, Ldate|Ltime|Lmicroseconds|Lshortfile)
+	return New(out, loglevel, Ldate|Ltime|Lshortfile)
 }
 
 func (llogger *LeveledLog) formatFile(file string, line int) string {

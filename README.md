@@ -44,16 +44,16 @@ func main() {
 }
 ```
 
-**Output**
+Output:
 ```sh
-2019/11/26 18:34:44.180749 main.go:11 [DEBUG] debug message 1
-2019/11/26 18:34:44.180854 main.go:12 [INFO] info message
-2019/11/26 18:34:44.180858 main.go:13 [WARNING] warning message
-2019/11/26 18:34:44.180861 main.go:14 [ERROR] error message
-2019/11/26 18:34:44.180864 main.go:17 D debug message 2 with a different level prefix
-2019/11/26 18:34:44.180867 main.go:21 [WARNING] this will be printed
-2019/11/26 18:34:44.180870 main.go:22 [ERROR] this too
-2019/11/26 18:34:44 [INFO] a different log entry prefix
+2019/11/27 12:40:39 main.go:11 [DEBUG] debug message 1
+2019/11/27 12:40:39 main.go:12 [INFO] info message
+2019/11/27 12:40:39 main.go:13 [WARNING] warning message
+2019/11/27 12:40:39 main.go:14 [ERROR] error message
+2019/11/27 12:40:39 main.go:17 D debug message 2 with a different level prefix
+2019/11/27 12:40:39 main.go:21 [WARNING] this will be printed
+2019/11/27 12:40:39 main.go:22 [ERROR] this too
+2019/11/27 12:40:39 [INFO] a different log entry prefix
 ```
 
 
@@ -77,7 +77,7 @@ const (
 	Lshortfile    = log.Lshortfile
 	LUTC          = log.LUTC
 	LstdFlags     = log.LstdFlags
-)  // flags
+)  // flags (see https://golang.org/pkg/log/#pkg-constants)
 
 // TYPE
 type LeveledLog
