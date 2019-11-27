@@ -12,18 +12,16 @@ go get -u github.com/ojroques/leveledlog
 
 ## Usage
 
-Source:
-
 ```go
 package main
 
 import (
-	"github.com/ojroques/leveledlog"
 	"os"
+	"github.com/ojroques/leveledlog"
 )
 
 func main() {
-	// os.Stderr is the standard error output
+	// the logger writes to the standard error output here (os.Stderr)
 	logger := leveledlog.DefaultNew(os.Stderr, leveledlog.DEBUG)
 	logger.Debug("debug message %d", 1)
 	logger.Info("info message")
@@ -46,8 +44,7 @@ func main() {
 }
 ```
 
-Output:
-
+**Output**
 ```sh
 2019/11/26 18:34:44.180749 main.go:11 [DEBUG] debug message 1
 2019/11/26 18:34:44.180854 main.go:12 [INFO] info message
@@ -63,14 +60,14 @@ Output:
 ## Documentation
 
 ```go
-// Constants
+// CONSTANTS
 const (
 	NONE = iota
 	ERROR
 	WARNING
 	INFO
 	DEBUG
-)
+)  // levels
 
 const (
 	Ldate         = log.Ldate
@@ -80,16 +77,16 @@ const (
 	Lshortfile    = log.Lshortfile
 	LUTC          = log.LUTC
 	LstdFlags     = log.LstdFlags
-)
+)  // flags
 
-// Type
+// TYPE
 type LeveledLog
 
-// Constructors
+// CONSTRUCTORS
 func New(out io.Writer, loglevel uint32, flag int) *LeveledLog {}
 func DefaultNew(out io.Writer, loglevel uint32) *LeveledLog {}
 
-// Methods
+// METHODS
 func (llogger *LeveledLog) Debug(msg string, v ...interface{}) {}
 func (llogger *LeveledLog) Info(msg string, v ...interface{}) {}
 func (llogger *LeveledLog) Warning(msg string, v ...interface{}) {}

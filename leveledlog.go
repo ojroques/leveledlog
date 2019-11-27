@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"runtime"
-	"strconv"
 )
 
 const (
@@ -46,7 +45,7 @@ func DefaultNew(out io.Writer, loglevel uint32) *LeveledLog {
 	return New(out, loglevel, Ldate|Ltime|Lmicroseconds|Lshortfile)
 }
 
-func (llogger *LeveledLog) formatFile(file string, line uint64) string {
+func (llogger *LeveledLog) formatFile(file string, line int) string {
 	if llogger.flags&(Lshortfile|Llongfile) == 0 {
 		return ""
 	}
@@ -62,7 +61,7 @@ func (llogger *LeveledLog) formatFile(file string, line uint64) string {
 		file = short
 	}
 
-	file = file + ":" + strconv.FormatUint(line, 10) + " "
+	file = fmt.Sprintf("%s:%d ", file, line)
 	return file
 }
 
@@ -77,7 +76,7 @@ func (llogger *LeveledLog) printf(entrylevel uint32, msg string, v ...interface{
 
 	file := ""
 	if _, f, l, ok := runtime.Caller(2); ok {
-		file = llogger.formatFile(f, uint64(l))
+		file = llogger.formatFile(f, l)
 	}
 	fmsg := fmt.Sprintf(msg, v...)
 	llogger.logger.Printf("%s%s%s\n", file, llogger.prefixes[entrylevel-1], fmsg)
